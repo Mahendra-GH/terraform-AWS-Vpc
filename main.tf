@@ -1,18 +1,18 @@
 resource "aws_vpc" "base" {
-  cidr_block = var.vpc_cidr
+  cidr_block = var.Vpc_Config.cidr_block
   tags = {
-    Name = "From_Terraform"
+    Name = var.Vpc_Config.name
   }
 
 }
 resource "aws_subnet" "subnets" {
-    count = 4
+  count             = length(var.Subnet_info)
   vpc_id            = aws_vpc.base.id
-  availability_zone = "ap-south-1a"
-  cidr_block        = var.subnet_cidr_range[count.index]
+  availability_zone = var.Subnet_info[count.index].availability_zone
+  cidr_block        = var.Subnet_info[count.index].cidr_block
   tags = {
     #count=4
-    Name = var.subnet_names[count.index]
+    Name = var.Subnet_info[count.index].name
   }
 
 }
